@@ -1,0 +1,59 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In | Universal Booking</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <main class="auth-container">
+        <section class="auth-card">
+            <a class="brand" href="/">Universal Booking</a>
+
+            <h1>Welcome back</h1>
+            <p class="subtitle">Sign in to your account.</p>
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% for category, message in messages %}
+                    <p class="flash-message {{ category }}">{{ message }}</p>
+                {% endfor %}
+            {% endwith %}
+
+            <form method="POST" action="{{ url_for('auth.login') }}">
+                {{ form.hidden_tag() }}
+
+                <div class="form-group">
+                    {{ form.email.label }}
+                    {{ form.email(
+                        placeholder="you@example.com",
+                        autocomplete="email"
+                    ) }}
+                    {% for error in form.email.errors %}
+                        <p class="error">{{ error }}</p>
+                    {% endfor %}
+                </div>
+
+                <div class="form-group">
+                    {{ form.password.label }}
+                    {{ form.password(
+                        placeholder="Enter your password",
+                        autocomplete="current-password"
+                    ) }}
+                    {% for error in form.password.errors %}
+                        <p class="error">{{ error }}</p>
+                    {% endfor %}
+                </div>
+
+                {{ form.submit(class="submit-button") }}
+            </form>
+
+            <p class="footer-text">
+                Don't have an account?
+                <a href="{{ url_for('auth.register') }}">Create account</a>
+            </p>
+        </section>
+    </main>
+</body>
+</html>

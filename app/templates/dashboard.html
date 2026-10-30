@@ -1,0 +1,48 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | Universal Booking</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <main class="auth-container">
+        <section class="auth-card">
+            <a class="brand" href="/">Universal Booking</a>
+
+            <h1>Dashboard</h1>
+            <p class="subtitle">
+                Welcome, {{ current_user.first_name }}!
+            </p>
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% for category, message in messages %}
+                    <p class="flash-message {{ category }}">{{ message }}</p>
+                {% endfor %}
+            {% endwith %}
+
+            <div class="form-group">
+                <label>First name</label>
+                <p>{{ current_user.first_name }}</p>
+            </div>
+
+            <div class="form-group">
+                <label>Last name</label>
+                <p>{{ current_user.last_name }}</p>
+            </div>
+
+            <div class="form-group">
+                <label>Email address</label>
+                <p>{{ current_user.email }}</p>
+            </div>
+
+            <form method="POST" action="{{ url_for('auth.logout') }}">
+                {{ logout_form.hidden_tag() }}
+                {{ logout_form.submit(class="submit-button") }}
+            </form>
+        </section>
+    </main>
+</body>
+</html>
