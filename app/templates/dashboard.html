@@ -13,6 +13,7 @@
             <a class="brand" href="/">Universal Booking</a>
 
             <h1>Dashboard</h1>
+
             <p class="subtitle">
                 Welcome, {{ current_user.first_name }}!
             </p>
@@ -22,6 +23,8 @@
                     <p class="flash-message {{ category }}">{{ message }}</p>
                 {% endfor %}
             {% endwith %}
+
+            <h2>Personal Information</h2>
 
             <div class="form-group">
                 <label>First name</label>
@@ -37,6 +40,24 @@
                 <label>Email address</label>
                 <p>{{ current_user.email }}</p>
             </div>
+
+            <hr>
+
+            <h2>Organization Information</h2>
+
+            {% if current_user.organization %}
+                <div class="form-group">
+                    <label>Business name</label>
+                    <p>{{ current_user.organization.name }}</p>
+                </div>
+
+                <div class="form-group">
+                    <label>Business type</label>
+                    <p>{{ current_user.organization.business_type }}</p>
+                </div>
+            {% else %}
+                <p>No organization is associated with this account.</p>
+            {% endif %}
 
             <form method="POST" action="{{ url_for('auth.logout') }}">
                 {{ logout_form.hidden_tag() }}

@@ -14,11 +14,13 @@
 
             <h1>Create your account</h1>
             <p class="subtitle">Get started with Universal Booking.</p>
+
             {% with messages = get_flashed_messages(with_categories=true) %}
                 {% for category, message in messages %}
                     <p class="flash-message {{ category }}">{{ message }}</p>
                 {% endfor %}
             {% endwith %}
+
             <form method="POST" action="{{ url_for('auth.register') }}">
                 {{ form.hidden_tag() }}
 
@@ -34,6 +36,22 @@
                     {{ form.last_name.label }}
                     {{ form.last_name(placeholder="Enter your last name", autocomplete="family-name") }}
                     {% for error in form.last_name.errors %}
+                        <p class="error">{{ error }}</p>
+                    {% endfor %}
+                </div>
+
+                <div class="form-group">
+                    {{ form.organization_name.label }}
+                    {{ form.organization_name(placeholder="Enter your business name", autocomplete="organization") }}
+                    {% for error in form.organization_name.errors %}
+                        <p class="error">{{ error }}</p>
+                    {% endfor %}
+                </div>
+
+                <div class="form-group">
+                    {{ form.business_type.label }}
+                    {{ form.business_type() }}
+                    {% for error in form.business_type.errors %}
                         <p class="error">{{ error }}</p>
                     {% endfor %}
                 </div>
@@ -67,7 +85,7 @@
 
             <p class="footer-text">
                 Already have an account?
-                <a href="#">Sign in</a>
+                <a href="{{ url_for('auth.login') }}">Sign in</a>
             </p>
         </section>
     </main>

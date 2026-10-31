@@ -1,6 +1,11 @@
 
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField
+from wtforms import (
+    StringField,
+    PasswordField,
+    SubmitField,
+    SelectField,
+)
 from wtforms.validators import (
     DataRequired,
     Email,
@@ -18,6 +23,26 @@ class RegistrationForm(FlaskForm):
     last_name = StringField(
         "Last name",
         validators=[DataRequired(), Length(max=100)],
+    )
+
+    organization_name = StringField(
+        "Business or organization name",
+        validators=[DataRequired(), Length(max=150)],
+    )
+
+    business_type = SelectField(
+        "Business type",
+        choices=[
+            ("hair_salon", "Hair Salon"),
+            ("beauty_salon", "Beauty Salon"),
+            ("medical", "Medical Practice"),
+            ("dental", "Dental Clinic"),
+            ("automotive", "Auto Service"),
+            ("massage", "Massage Studio"),
+            ("fitness", "Fitness Studio"),
+            ("other", "Other"),
+        ],
+        validators=[DataRequired()],
     )
 
     email = StringField(

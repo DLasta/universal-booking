@@ -7,8 +7,7 @@ from werkzeug.security import generate_password_hash
 from app.auth import auth
 from app.extensions import db
 from app.forms.registration import RegistrationForm
-from app.models import User
-
+from app.models import User, Organization
 from flask_login import login_user
 from werkzeug.security import check_password_hash
 
@@ -16,6 +15,7 @@ from app.forms.login import LoginForm
 
 from flask_login import current_user, login_required, logout_user
 from app.forms.logout import LogoutForm
+
 
 
 @auth.route("/register", methods=["GET", "POST"])
@@ -33,23 +33,31 @@ def register():
             flash("An account with this email already exists.", "error")
             return render_template("auth/register.html", form=form)
 
+        organization = Organization(
+            name=form.organization_name.data.strip(),
+            business_type=form.business_type.data,
+        )
+
         user = User(
             first_name=form.first_name.data.strip(),
             last_name=form.last_name.data.strip(),
             email=email,
             password_hash=generate_password_hash(form.password.data),
+            organization=organization,
         )
 
         try:
+            db.session.add(organization)
             db.session.add(user)
             db.session.commit()
+
         except IntegrityError:
             db.session.rollback()
-            flash("An account with this email already exists.", "error")
+            flash("Registration failed. Please try again.", "error")
             return render_template("auth/register.html", form=form)
 
-        flash("Your account has been created successfully!", "success")
-        return redirect(url_for("auth.register"))
+        flash("Your account and organization have been created successfully!", "success")
+        return redirect(url_for("auth.login"))
 
     return render_template("auth/register.html", form=form)
 
