@@ -1,0 +1,144 @@
+
+{% extends "base.html" %}
+
+{% block title %}Services | Universal Booking{% endblock %}
+{% block breadcrumb %}Services{% endblock %}
+{% block page_title %}Manage Services{% endblock %}
+
+{% block content %}
+
+<section class="welcome">
+    <h2>Your Services</h2>
+    <p>Create and manage the services your business offers.</p>
+</section>
+
+<section class="content-grid">
+
+    <div class="card">
+        <div class="card-header">
+            <h2>Add New Service</h2>
+            <p>Enter the details of your service.</p>
+        </div>
+
+        <form method="POST">
+            {{ form.hidden_tag() }}
+
+            <div class="form-group">
+                {{ form.name.label }}
+                {{ form.name(class="form-control", placeholder="e.g. Haircut") }}
+                {% for error in form.name.errors %}
+                    <div class="field-error">{{ error }}</div>
+                {% endfor %}
+            </div>
+
+            <div class="form-group">
+                {{ form.description.label }}
+                {{ form.description(class="form-control", rows="3", placeholder="Service description") }}
+                {% for error in form.description.errors %}
+                    <div class="field-error">{{ error }}</div>
+                {% endfor %}
+            </div>
+
+            <div class="form-group">
+                {{ form.duration_minutes.label }}
+                {{ form.duration_minutes(class="form-control", placeholder="30") }}
+                {% for error in form.duration_minutes.errors %}
+                    <div class="field-error">{{ error }}</div>
+                {% endfor %}
+            </div>
+
+            <div class="form-group">
+                {{ form.price.label }}
+                {{ form.price(class="form-control", placeholder="20.00", step="0.01") }}
+                {% for error in form.price.errors %}
+                    <div class="field-error">{{ error }}</div>
+                {% endfor %}
+            </div>
+
+            {{ form.submit(class="primary-button") }}
+        </form>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2>Existing Services</h2>
+            <p>Services offered by your organization.</p>
+        </div>
+
+        {% if services %}
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Service</th>
+                            <th>Duration</th>
+                            <th>Price</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for service in services %}
+                            <tr>
+                                <td>
+                                    <strong>{{ service.name }}</strong>
+                                    {% if service.description %}
+                                        <div class="muted-text">
+                                            {{ service.description }}
+                                        </div>
+                                    {% endif %}
+                                </td>
+
+                                <td>{{ service.duration_minutes }} min</td>
+                                <td>{{ "%.2f"|format(service.price) }} €</td>
+
+                                <td>
+                                    {% if service.is_active %}
+                                        <span class="status-active">Active</span>
+                                    {% else %}
+                                        <span class="status-inactive">Inactive</span>
+                                    {% endif %}
+                                </td>
+
+                                <td>
+                                    <div class="service-actions">
+                                        <a
+                                            href="{{ url_for('auth.edit_service', service_id=service.id) }}"
+                                            class="service-btn edit-btn"
+                                        >
+                                            Edit
+                                        </a>
+
+                                        <form
+                                            method="POST"
+                                            action="{{ url_for('auth.toggle_service_status', service_id=service.id) }}"
+                                        >
+                                            {{ form.csrf_token }}
+
+                                            {% if service.is_active %}
+                                                <button type="submit" class="service-btn deactivate-btn">
+                                                    Deactivate
+                                                </button>
+                                            {% else %}
+                                                <button type="submit" class="service-btn activate-btn">
+                                                    Activate
+                                                </button>
+                                            {% endif %}
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <div class="empty-organization">
+                No services have been added yet.
+            </div>
+        {% endif %}
+    </div>
+
+</section>
+
+{% endblock %}

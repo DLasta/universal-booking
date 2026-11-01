@@ -1,4 +1,8 @@
 
+/* =========================================
+   GLOBAL STYLES
+========================================= */
+
 * {
     box-sizing: border-box;
 }
@@ -10,6 +14,10 @@ body {
     background: #f3f5f9;
     color: #172033;
 }
+
+/* =========================================
+   AUTHENTICATION
+========================================= */
 
 .auth-container {
     min-height: 100vh;
@@ -60,15 +68,20 @@ h1 {
     font-weight: 600;
 }
 
-.form-group input {
+.form-group input,
+.form-group textarea,
+.form-group select {
     width: 100%;
     padding: 12px 14px;
     border: 1px solid #ccd3df;
     border-radius: 8px;
     font-size: 15px;
+    font-family: inherit;
 }
 
-.form-group input:focus {
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
     outline: 2px solid #b9c7ff;
     border-color: #3458db;
 }
@@ -109,6 +122,473 @@ h1 {
     font-weight: 600;
 }
 
+/* =========================================
+   DASHBOARD LAYOUT
+========================================= */
+
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 245px;
+    display: flex;
+    flex-direction: column;
+    padding: 28px 18px;
+    background: #172033;
+    color: #ffffff;
+    z-index: 100;
+}
+
+.sidebar .brand {
+    color: #ffffff;
+    font-size: 21px;
+    margin-bottom: 42px;
+}
+
+.sidebar .brand span {
+    color: #8da5ff;
+}
+
+.nav-label {
+    margin: 0 0 12px 12px;
+    color: #8994a8;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.nav-link {
+    display: block;
+    padding: 12px 14px;
+    margin-bottom: 6px;
+    border-radius: 8px;
+    color: #c3cada;
+    text-decoration: none;
+    font-size: 14px;
+    transition: all 0.2s ease;
+}
+
+.nav-link:hover,
+.nav-link.active {
+    background: #293956;
+    color: #ffffff;
+}
+
+.sidebar-bottom {
+    margin-top: auto;
+}
+
+.logout-button {
+    width: 100%;
+    padding: 12px 14px;
+    border: 0;
+    border-radius: 8px;
+    background: #293956;
+    color: #ffffff;
+    text-align: left;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.logout-button:hover {
+    background: #3b4c6c;
+}
+
+.main {
+    min-height: 100vh;
+    margin-left: 245px;
+    padding: 30px 36px;
+}
+
+.topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 32px;
+}
+
+.breadcrumb {
+    color: #8994a8;
+    font-size: 13px;
+}
+
+.page-title {
+    margin: 8px 0 0;
+    font-size: 27px;
+    font-weight: 700;
+}
+
+.user-profile {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.avatar {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: #e0e7ff;
+    color: #3458db;
+    font-weight: 700;
+}
+
+/* =========================================
+   DASHBOARD CONTENT
+========================================= */
+
+.welcome {
+    margin-bottom: 28px;
+}
+
+.welcome h2 {
+    margin: 0 0 8px;
+    font-size: 22px;
+}
+
+.welcome p {
+    margin: 0;
+    color: #697386;
+    line-height: 1.5;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 20px;
+    margin-bottom: 28px;
+}
+
+.stat-card {
+    padding: 24px;
+    background: #ffffff;
+    border: 1px solid #e5e9f0;
+    border-radius: 12px;
+}
+
+.stat-card h3 {
+    margin: 0 0 12px;
+    color: #697386;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.stat-card .stat-value {
+    font-size: 28px;
+    font-weight: 700;
+}
+
+/* =========================================
+   CARDS AND CONTENT
+========================================= */
+
+.content-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px;
+    align-items: start;
+}
+
+.card {
+    padding: 24px;
+    background: #ffffff;
+    border: 1px solid #e5e9f0;
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(20, 35, 60, 0.03);
+}
+
+.card-header {
+    margin-bottom: 24px;
+}
+
+.card-header h2 {
+    margin: 0 0 8px;
+    font-size: 18px;
+}
+
+.card-header p {
+    margin: 0;
+    color: #697386;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.empty-organization {
+    padding: 28px 16px;
+    text-align: center;
+    color: #8994a8;
+    font-size: 14px;
+}
+
+.muted-text {
+    margin-top: 5px;
+    color: #8994a8;
+    font-size: 12px;
+}
+
+/* =========================================
+   GENERAL BUTTONS
+========================================= */
+
+.primary-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 11px 16px;
+    border: 0;
+    border-radius: 8px;
+    background: #3458db;
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.primary-button:hover {
+    background: #2847bd;
+}
+
+.secondary-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 11px 16px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    background: #f3f4f6;
+    color: #374151;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.secondary-button:hover {
+    background: #e5e7eb;
+}
+
+/* =========================================
+   TABLES
+========================================= */
+
+.table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+thead {
+    background: #f8f9fc;
+}
+
+th {
+    padding: 13px 14px;
+    color: #697386;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+}
+
+td {
+    padding: 15px 14px;
+    border-top: 1px solid #edf0f5;
+    font-size: 13px;
+    vertical-align: middle;
+}
+
+tbody tr:hover {
+    background: #fafbfe;
+}
+
+/* =========================================
+   SERVICE STATUS
+========================================= */
+
+.status-active,
+.status-inactive {
+    display: inline-flex;
+    align-items: center;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.status-active {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.status-inactive {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+/* =========================================
+   SERVICE ACTION BUTTONS
+========================================= */
+
+.service-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.service-actions form {
+    margin: 0;
+}
+
+.service-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 95px;
+    height: 36px;
+    padding: 0 14px;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.edit-btn {
+    background: #eff6ff;
+    color: #2563eb;
+    border-color: #dbeafe;
+}
+
+.edit-btn:hover {
+    background: #2563eb;
+    color: #ffffff;
+}
+
+.deactivate-btn {
+    background: #fff1f2;
+    color: #e11d48;
+    border-color: #ffe4e6;
+}
+
+.deactivate-btn:hover {
+    background: #e11d48;
+    color: #ffffff;
+}
+
+.activate-btn {
+    background: #ecfdf5;
+    color: #059669;
+    border-color: #d1fae5;
+}
+
+.activate-btn:hover {
+    background: #059669;
+    color: #ffffff;
+}
+
+.service-btn:focus-visible {
+    outline: 3px solid #93c5fd;
+    outline-offset: 2px;
+}
+
+/* =========================================
+   FORM VALIDATION AND ALERTS
+========================================= */
+
+.field-error {
+    margin-top: 6px;
+    color: #c62828;
+    font-size: 12px;
+}
+
+.flash-message {
+    margin-bottom: 18px;
+    padding: 13px 16px;
+    border-radius: 8px;
+    font-size: 13px;
+}
+
+.flash-message.success {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.flash-message.error {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+/* =========================================
+   RESPONSIVE DESIGN
+========================================= */
+
+@media (max-width: 1100px) {
+    .content-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .stats-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+    .sidebar {
+        position: relative;
+        width: 100%;
+        min-height: auto;
+        padding: 18px;
+    }
+
+    .sidebar .brand {
+        margin-bottom: 20px;
+    }
+
+    .sidebar-bottom {
+        margin-top: 20px;
+    }
+
+    .main {
+        margin-left: 0;
+        padding: 22px 16px;
+    }
+
+    .topbar {
+        align-items: flex-start;
+        gap: 16px;
+        flex-direction: column;
+    }
+
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .content-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .card {
+        padding: 18px;
+    }
+}
+
 @media (max-width: 480px) {
     .auth-card {
         padding: 24px;
@@ -117,4 +597,43 @@ h1 {
     h1 {
         font-size: 24px;
     }
+
+    .page-title {
+        font-size: 23px;
+    }
+
+    .service-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .service-actions form,
+    .service-btn {
+        width: 100%;
+    }
+}
+
+/* FORCE SERVICE BUTTON COLORS */
+
+.service-actions .service-btn.edit-btn {
+    background-color: #2563eb !important;
+    color: #ffffff !important;
+    border: 1px solid #2563eb !important;
+}
+
+.service-actions .service-btn.deactivate-btn {
+    background-color: #e11d48 !important;
+    color: #ffffff !important;
+    border: 1px solid #e11d48 !important;
+}
+
+.service-actions .service-btn.activate-btn {
+    background-color: #059669 !important;
+    color: #ffffff !important;
+    border: 1px solid #059669 !important;
+}
+
+.service-actions .service-btn:hover {
+    opacity: 0.85;
+    transform: translateY(-1px);
 }

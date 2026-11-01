@@ -1,0 +1,678 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{% block title %}Universal Booking{% endblock %}</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f5f7fb;
+            color: #172033;
+        }
+
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 245px;
+            height: 100vh;
+            background: #172033;
+            color: white;
+            padding: 30px 20px;
+            display: flex;
+            flex-direction: column;
+            z-index: 100;
+        }
+
+        .brand {
+            font-size: 21px;
+            font-weight: 800;
+            margin-bottom: 45px;
+            letter-spacing: -0.7px;
+            color: white;
+            text-decoration: none;
+        }
+
+        .brand span {
+            color: #818cf8;
+        }
+
+        .nav-label {
+            color: #8993a7;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1.3px;
+            margin: 25px 0 12px;
+            text-transform: uppercase;
+        }
+
+        .nav-link {
+            display: block;
+            color: #c3cada;
+            text-decoration: none;
+            padding: 13px 14px;
+            border-radius: 9px;
+            margin-bottom: 6px;
+            font-size: 14px;
+            transition: 0.2s;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            background: #303c55;
+            color: white;
+        }
+
+        .sidebar-bottom {
+            margin-top: auto;
+            padding-top: 20px;
+        }
+
+        .logout-button {
+            width: 100%;
+            background: #303c55;
+            color: white;
+            border: none;
+            padding: 13px;
+            border-radius: 9px;
+            font-size: 13px;
+            font-family: inherit;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .logout-button:hover {
+            background: #414e68;
+        }
+
+        .main {
+            margin-left: 245px;
+            padding: 35px 45px;
+            min-height: 100vh;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 38px;
+            gap: 15px;
+        }
+
+        .breadcrumb {
+            color: #8791a4;
+            font-size: 13px;
+            margin-bottom: 9px;
+        }
+
+        .page-title {
+            font-size: 28px;
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            background: white;
+            border: 1px solid #e8ebf2;
+            padding: 9px 14px;
+            border-radius: 10px;
+        }
+
+        .avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            background: #eeedff;
+            color: #5855e7;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 12px;
+            font-weight: 800;
+            flex-shrink: 0;
+        }
+
+        .user-name {
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .user-role {
+            font-size: 10px;
+            color: #8490a3;
+            margin-top: 3px;
+            text-transform: capitalize;
+        }
+
+        .welcome,
+        .intro {
+            margin-bottom: 28px;
+        }
+
+        .welcome h2,
+        .intro h2 {
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .welcome p,
+        .intro p {
+            color: #8490a3;
+            font-size: 13px;
+            margin-top: 8px;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+            margin-bottom: 25px;
+        }
+
+        .stat-card,
+        .card {
+            background: white;
+            border: 1px solid #e9edf4;
+            border-radius: 14px;
+            box-shadow: 0 3px 12px rgba(20, 35, 65, 0.03);
+        }
+
+        .stat-card {
+            padding: 23px;
+        }
+
+        .stat-label {
+            color: #8490a3;
+            font-size: 13px;
+            margin-bottom: 12px;
+        }
+
+        .stat-value {
+            font-size: 21px;
+            font-weight: 800;
+            overflow-wrap: anywhere;
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 22px;
+            align-items: start;
+        }
+
+        .card {
+            padding: 25px;
+            min-width: 0;
+        }
+
+        .card-header {
+            margin-bottom: 23px;
+        }
+
+        .card-header h2 {
+            font-size: 17px;
+            font-weight: 700;
+        }
+
+        .card-header p {
+            color: #8490a3;
+            font-size: 12px;
+            margin-top: 7px;
+            line-height: 1.5;
+        }
+
+        .info-row {
+            padding: 15px 0;
+            border-bottom: 1px solid #f0f2f6;
+        }
+
+        .info-row:last-child {
+            border-bottom: none;
+        }
+
+        .info-label {
+            color: #8993a5;
+            font-size: 11px;
+            margin-bottom: 7px;
+        }
+
+        .info-value {
+            color: #27334a;
+            font-size: 13px;
+            font-weight: 600;
+            overflow-wrap: anywhere;
+        }
+
+        .role-badge {
+            display: inline-block;
+            padding: 6px 11px;
+            border-radius: 20px;
+            background: #eeedff;
+            color: #5855d6;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: capitalize;
+        }
+
+        .organization-icon {
+            width: 45px;
+            height: 45px;
+            background: #eeedff;
+            color: #5855e7;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            margin-bottom: 18px;
+        }
+
+        .manage-link {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 12px 17px;
+            background: #5855e7;
+            color: white;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: 700;
+            transition: 0.2s;
+        }
+
+        .manage-link:hover {
+            background: #4642ce;
+            transform: translateY(-1px);
+        }
+
+        .empty-organization {
+            background: #f8f9fc;
+            padding: 17px;
+            border-radius: 9px;
+            color: #8490a3;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .form-group {
+            margin-bottom: 17px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 12px;
+            font-weight: 600;
+            color: #526078;
+            margin-bottom: 8px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 13px;
+            border: 1px solid #dfe4ed;
+            border-radius: 8px;
+            background: #fbfcfe;
+            color: #172033;
+            font-family: inherit;
+            font-size: 13px;
+            outline: none;
+        }
+
+        .form-control:focus {
+            border-color: #6366f1;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.10);
+        }
+
+        .btn-primary,
+        .primary-button {
+            width: 100%;
+            border: none;
+            background: #5855e7;
+            color: white;
+            padding: 13px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 700;
+            font-family: inherit;
+            cursor: pointer;
+        }
+
+        .btn-primary:hover,
+        .primary-button:hover {
+            background: #4642ce;
+        }
+
+        .error,
+        .field-error {
+            display: block;
+            color: #dc4444;
+            font-size: 11px;
+            margin-top: 5px;
+        }
+
+        .alert {
+            padding: 14px 17px;
+            border-radius: 9px;
+            margin-bottom: 18px;
+            font-size: 13px;
+        }
+
+        .alert.success {
+            background: #e9f9f0;
+            color: #167647;
+            border: 1px solid #c8efd9;
+        }
+
+        .alert.error {
+            background: #fff0f0;
+            color: #bd3333;
+            border: 1px solid #f4d0d0;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        th {
+            color: #8993a5;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            padding: 13px 10px;
+            border-bottom: 1px solid #edf0f5;
+        }
+
+        td {
+            padding: 16px 10px;
+            border-bottom: 1px solid #f0f2f6;
+            font-size: 12px;
+            color: #526078;
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .employee-info {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            min-width: 150px;
+        }
+
+        .employee-name {
+            font-weight: 700;
+            color: #27334a;
+            font-size: 12px;
+        }
+
+        .status-badge {
+            color: #16834f;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 45px 15px;
+            color: #8490a3;
+        }
+
+        .empty-state h3 {
+            color: #27334a;
+            font-size: 15px;
+            margin-bottom: 7px;
+        }
+
+        .empty-state p {
+            font-size: 12px;
+        }
+
+        .muted-text {
+            color: #8490a3;
+            font-size: 11px;
+            margin-top: 5px;
+        }
+
+        .footer {
+            color: #9aa3b2;
+            font-size: 11px;
+            text-align: center;
+            margin-top: 35px;
+        }
+        /* SERVICE ACTION BUTTONS */
+
+        .service-actions {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 8px;
+            flex-wrap: nowrap;
+            white-space: nowrap;
+        }
+
+        .service-actions form {
+            margin: 0;
+            display: inline-flex;
+        }
+
+        .service-actions .service-btn {
+            white-space: nowrap;
+        }
+
+        .service-actions form {
+            margin: 0;
+        }
+
+        .service-btn {
+            display: inline-block;
+            padding: 7px 10px;
+            border-radius: 7px;
+            border: 1px solid transparent;
+            color: #ffffff !important;
+            font-family: inherit;
+            font-size: 11px;
+            font-weight: 700;
+            text-decoration: none;
+            cursor: pointer;
+            transition: 0.2s ease;
+        }
+
+        .service-btn:hover {
+            opacity: 0.85;
+            transform: translateY(-1px);
+        }
+
+        .edit-btn {
+            background-color: #2563eb !important;
+            border-color: #2563eb !important;
+        }
+
+        .deactivate-btn {
+            background-color: #e11d48 !important;
+            border-color: #e11d48 !important;
+        }
+
+        .activate-btn {
+            background-color: #059669 !important;
+            border-color: #059669 !important;
+        }
+
+        @media (max-width: 1100px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 750px) {
+            .sidebar {
+                position: relative;
+                width: 100%;
+                height: auto;
+                min-height: 0;
+                padding: 18px 20px;
+            }
+
+            .brand {
+                display: inline-block;
+                margin-bottom: 12px;
+            }
+
+            .nav-label {
+                display: none;
+            }
+
+            .nav-link {
+                display: inline-block;
+                margin: 5px 5px 0 0;
+            }
+
+            .sidebar-bottom {
+                margin-top: 12px;
+                padding-top: 10px;
+            }
+
+            .logout-button {
+                max-width: 180px;
+            }
+
+            .main {
+                margin-left: 0;
+                padding: 25px 18px;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+            .topbar {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .page-title {
+                font-size: 24px;
+            }
+
+            .card {
+                padding: 19px;
+            }
+        }
+    </style>
+
+    {% block extra_head %}{% endblock %}
+</head>
+
+<body>
+
+    <aside class="sidebar">
+
+        <a href="{{ url_for('auth.dashboard') }}" class="brand">
+            Universal<span>Booking</span>
+        </a>
+
+        <div class="nav-label">Workspace</div>
+
+        <a href="{{ url_for('auth.dashboard') }}"
+           class="nav-link {% if request.endpoint == 'auth.dashboard' %}active{% endif %}">
+            ◈ Dashboard
+        </a>
+
+        {% if current_user.role == "owner" and current_user.organization_id %}
+
+            <a href="{{ url_for('auth.employees') }}"
+               class="nav-link {% if request.endpoint == 'auth.employees' %}active{% endif %}">
+                ◉ Employees
+            </a>
+
+            <a href="{{ url_for('auth.services') }}"
+               class="nav-link {% if request.endpoint == 'auth.services' %}active{% endif %}">
+                ▦ Services
+            </a>
+
+        {% endif %}
+
+        <div class="sidebar-bottom">
+            <form method="POST" action="{{ url_for('auth.logout') }}">
+                {{ logout_form.hidden_tag() }}
+                {{ logout_form.submit(class="logout-button", value="Sign Out") }}
+            </form>
+        </div>
+
+    </aside>
+
+    <main class="main">
+
+        <header class="topbar">
+            <div>
+                <div class="breadcrumb">
+                    Workspace / {% block breadcrumb %}Dashboard{% endblock %}
+                </div>
+
+                <h1 class="page-title">
+                    {% block page_title %}Dashboard{% endblock %}
+                </h1>
+            </div>
+
+            <div class="user-profile">
+                <div class="avatar">
+                    {{ current_user.first_name[0]|upper }}{{ current_user.last_name[0]|upper }}
+                </div>
+
+                <div>
+                    <div class="user-name">
+                        {{ current_user.first_name }} {{ current_user.last_name }}
+                    </div>
+                    <div class="user-role">
+                        {{ current_user.role }}
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert {{ category }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+
+        <footer class="footer">
+            Universal Booking · Workspace
+        </footer>
+
+    </main>
+
+</body>
+</html>

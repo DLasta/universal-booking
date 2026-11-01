@@ -1,69 +1,112 @@
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard | Universal Booking</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-</head>
-<body>
-    <main class="auth-container">
-        <section class="auth-card">
-            <a class="brand" href="/">Universal Booking</a>
+{% extends "base.html" %}
 
-            <h1>Dashboard</h1>
+{% block title %}Dashboard | Universal Booking{% endblock %}
+{% block breadcrumb %}Dashboard{% endblock %}
+{% block page_title %}Dashboard{% endblock %}
 
-            <p class="subtitle">
-                Welcome, {{ current_user.first_name }}!
-            </p>
+{% block content %}
 
-            {% with messages = get_flashed_messages(with_categories=true) %}
-                {% for category, message in messages %}
-                    <p class="flash-message {{ category }}">{{ message }}</p>
-                {% endfor %}
-            {% endwith %}
+<section class="welcome">
+    <h2>Welcome back, {{ current_user.first_name }}!</h2>
+    <p>Here is an overview of your account and organization.</p>
+</section>
 
-            <h2>Personal Information</h2>
+<section class="stats">
 
-            <div class="form-group">
-                <label>First name</label>
-                <p>{{ current_user.first_name }}</p>
-            </div>
+    <div class="stat-card">
+        <div class="stat-label">Account Status</div>
+        <div class="stat-value" style="color: #16834f;">Active</div>
+    </div>
 
-            <div class="form-group">
-                <label>Last name</label>
-                <p>{{ current_user.last_name }}</p>
-            </div>
+    <div class="stat-card">
+        <div class="stat-label">Account Role</div>
+        <div class="stat-value">{{ current_user.role|capitalize }}</div>
+    </div>
 
-            <div class="form-group">
-                <label>Email address</label>
-                <p>{{ current_user.email }}</p>
-            </div>
-
-            <hr>
-
-            <h2>Organization Information</h2>
-
+    <div class="stat-card">
+        <div class="stat-label">Organization</div>
+        <div class="stat-value">
             {% if current_user.organization %}
-                <div class="form-group">
-                    <label>Business name</label>
-                    <p>{{ current_user.organization.name }}</p>
-                </div>
-
-                <div class="form-group">
-                    <label>Business type</label>
-                    <p>{{ current_user.organization.business_type }}</p>
-                </div>
+                {{ current_user.organization.name }}
             {% else %}
-                <p>No organization is associated with this account.</p>
+                Not connected
+            {% endif %}
+        </div>
+    </div>
+
+</section>
+
+<section class="content-grid">
+
+    <div class="card">
+        <div class="card-header">
+            <h2>Personal Information</h2>
+            <p>Your account details.</p>
+        </div>
+
+        <div class="info-row">
+            <div class="info-label">First Name</div>
+            <div class="info-value">{{ current_user.first_name }}</div>
+        </div>
+
+        <div class="info-row">
+            <div class="info-label">Last Name</div>
+            <div class="info-value">{{ current_user.last_name }}</div>
+        </div>
+
+        <div class="info-row">
+            <div class="info-label">Email Address</div>
+            <div class="info-value">{{ current_user.email }}</div>
+        </div>
+
+        <div class="info-row">
+            <div class="info-label">Account Role</div>
+            <div class="info-value">
+                <span class="role-badge">{{ current_user.role }}</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2>Organization Information</h2>
+            <p>Your business details and team management.</p>
+        </div>
+
+        {% if current_user.organization %}
+
+            <div class="organization-icon">▦</div>
+
+            <div class="info-row">
+                <div class="info-label">Business Name</div>
+                <div class="info-value">
+                    {{ current_user.organization.name }}
+                </div>
+            </div>
+
+            <div class="info-row">
+                <div class="info-label">Business Type</div>
+                <div class="info-value">
+                    {{ current_user.organization.business_type|replace("_", " ")|title }}
+                </div>
+            </div>
+
+            {% if current_user.role == "owner" %}
+                <a href="{{ url_for('auth.employees') }}" class="manage-link">
+                    Manage Employees →
+                </a>
             {% endif %}
 
-            <form method="POST" action="{{ url_for('auth.logout') }}">
-                {{ logout_form.hidden_tag() }}
-                {{ logout_form.submit(class="submit-button") }}
-            </form>
-        </section>
-    </main>
-</body>
-</html>
+        {% else %}
+
+            <div class="empty-organization">
+                No organization is associated with this account.
+            </div>
+
+        {% endif %}
+    </div>
+
+</section>
+
+{% endblock %}
